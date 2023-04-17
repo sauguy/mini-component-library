@@ -6,6 +6,11 @@ import { COLORS } from '../../constants';
 import VisuallyHidden from '../VisuallyHidden';
 
 const ProgressBar = ({ value, size }) => {
+  if (value < 0 || value > 100) {
+    // round up to 0 or 100
+    value = Math.max(0, Math.min(100, value));
+  }
+  
   return <>
     <Wrapper className={size} role='progressbar' aria-labelledby='progress' aria-valuenow={value}>
       <ProgressBarElement value={value}/>
@@ -41,9 +46,20 @@ const ProgressBarElement = styled.div`
   background-color: ${COLORS.primary};
   border-radius: 4px 0 0 4px;
 
-  ${props => props.value > 99.6 && `
-    border-radius: 4px ${Math.round(4 - (100 - props.value) * 10)}px ${Math.round(4 - (100 - props.value) * 10)}px 4px
-  `};
+  ${props => {
+    if (props.value === 100) {
+      return `border-radius: 4px 4px 4px 4px`;
+    }
+    if (props.value >= 99.7) {
+      return `border-radius: 4px 3px 3px 4px`;
+    }
+    if (props.value >= 99.3) {
+      return `border-radius: 4px 2px 2px 4px`;
+    }
+    if (props.value > 99) {
+      return `border-radius: 4px 1px 1px 4px`;
+    }
+  }};
 `;
 
 export default ProgressBar;
