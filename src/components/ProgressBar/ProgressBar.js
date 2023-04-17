@@ -31,6 +31,7 @@ const Wrapper = styled.div`
   &.large {
     height: 24px;
     padding: 4px;
+    border-radius: 8px;
   }
 
   &.medium {
