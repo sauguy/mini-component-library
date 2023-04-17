@@ -7,10 +7,13 @@ import VisuallyHidden from '../VisuallyHidden';
 
 const ProgressBar = ({ value, size }) => {
   if (value < 0 || value > 100) {
-    // round up to 0 or 100
-    value = Math.max(0, Math.min(100, value));
+    throw new Error('Value must be between 0 and 100');
   }
-  
+
+  if (size !== 'small' && size !== 'medium' && size !== 'large') {
+    throw new Error('Size must be small, medium, or large');
+  }
+
   return <>
     <Wrapper className={size} role='progressbar' aria-labelledby='progress' aria-valuenow={value}>
       <ProgressBarElement value={value}/>
